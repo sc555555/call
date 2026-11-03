@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>联系我</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: linear-gradient(160deg, #1a73e8 0%, #0d47a1 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: #333;
+  }
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 36px 28px 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .avatar {
+    width: 74px; height: 74px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, #1a73e8, #34a853);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 32px; font-weight: 600;
+    box-shadow: 0 8px 20px rgba(26,115,232,0.4);
+  }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .sub { font-size: 14px; color: #888; margin-bottom: 28px; }
+  .phone-box {
+    background: #f4f7fb;
+    border: 1.5px dashed #c9d6e8;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 24px;
+  }
+  .phone-label { font-size: 12px; color: #999; letter-spacing: 1px; margin-bottom: 6px; }
+  .phone-num {
+    font-size: 28px; font-weight: 700; color: #1a73e8;
+    letter-spacing: 1.5px; user-select: all;
+  }
+  .btn {
+    display: block; width: 100%;
+    padding: 15px; border-radius: 12px;
+    font-size: 17px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: transform .1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: #1a73e8; color: #fff; margin-bottom: 12px; }
+  .btn-outline { background: #fff; color: #1a73e8; border: 1.5px solid #1a73e8; }
+  .tip {
+    margin-top: 22px; font-size: 12px; color: #aaa; line-height: 1.7;
+  }
+  .tip b { color: #888; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="avatar">电</div>
+  <h1>联系我</h1>
+  <p class="sub">点击下方按钮即可拨打电话</p>
+
+  <div class="phone-box">
+    <div class="phone-label">联系电话</div>
+    <div class="phone-num" id="phone">176 2716 0160</div>
+  </div>
+
+  <a class="btn btn-primary" href="tel:17627160160" id="callBtn">📞 立即拨打</a>
+  <button class="btn btn-outline" id="copyBtn">⧉ 复制号码</button>
+
+  <p class="tip">
+    微信内若无法直接拨号，请点击「<b>复制号码</b>」后到拨号盘粘贴拨打<br>
+    或点击右上角「···」选择「在浏览器打开」
+  </p>
+</div>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    var num = '17627160160';
+    var done = function () {
+      var btn = document.getElementById('copyBtn');
+      var old = btn.innerText;
+      btn.innerText = '✓ 已复制，去拨号盘粘贴';
+      setTimeout(function () { btn.innerText = old; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(num).then(done).catch(function () {
+        fallbackCopy(num, done);
+      });
+    } else {
+      fallbackCopy(num, done);
+    }
+  });
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); }
+    catch (e) { alert('复制失败，请长按号码手动复制'); }
+    document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>
